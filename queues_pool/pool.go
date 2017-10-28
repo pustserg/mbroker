@@ -18,7 +18,11 @@ func (pool *Pool) GiveFreeQueue(name string) Queue {
 		}
 	}
 	if queue.name == "" {
-		queue = Queue{name: name, inputChannel: make(chan string), outputChannel: make(chan string)}
+		queue = Queue{
+			name: name,
+			inputChannel: make(chan []byte),
+			outputChannel: make(chan []byte),
+		}
 		pool.addQueue(queue)
 	}
 	return queue

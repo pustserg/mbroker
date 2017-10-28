@@ -12,7 +12,11 @@ func TestInitialize(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	pool := Pool{}
-	queue := Queue{"test queue", make(chan string), make(chan string)}
+	queue := Queue{
+		name: "test queue",
+		inputChannel: make(chan []byte),
+		outputChannel: make(chan []byte),
+	}
 	pool.addQueue(queue)
 
 	if len(pool.queues) != 1 {
@@ -39,7 +43,11 @@ func TestGiveFreeQueueWithEmptyPool(t *testing.T) {
 // free queue if pool has queue with given name
 func TestGiveFreeQueueWithNotEmptyPool(t *testing.T) {
 	pool := Pool{}
-	queue := Queue{"test queue", make(chan string), make(chan string)}
+	queue := Queue{
+		name: "test queue",
+		inputChannel: make(chan []byte),
+		outputChannel: make(chan []byte),
+	}
 	pool.addQueue(queue)
 	elseQueue := pool.GiveFreeQueue("test queue")
 
@@ -55,7 +63,11 @@ func TestGiveFreeQueueWithNotEmptyPool(t *testing.T) {
 // free queue if pool is not empty but has not queue with given name
 func TestPoolGiveFreeQueueWithOtherNameQueue(t *testing.T) {
 	pool := Pool{}
-	queue := Queue{"test queue", make(chan string), make(chan string)}
+	queue := Queue{
+		name: "test queue",
+		inputChannel: make(chan []byte),
+		outputChannel: make(chan []byte),
+	}
 	pool.addQueue(queue)
 	elseQueue := pool.GiveFreeQueue("new name queue")
 
