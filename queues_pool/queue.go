@@ -13,3 +13,10 @@ func (q *Queue) InputChan() chan []byte {
 func (q *Queue) OutputChan() chan []byte {
 	return q.outputChannel
 }
+
+func (q *Queue) StartListen() {
+	for {
+		msg := <- q.inputChannel
+		q.outputChannel <- msg
+	}
+}
