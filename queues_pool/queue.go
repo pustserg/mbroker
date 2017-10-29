@@ -3,5 +3,20 @@ package queuesPool
 // Queue struct with name and string channels for input/output
 type Queue struct {
 	name                        string
-	inputChannel, outputChannel chan string
+	inputChannel, outputChannel chan []byte
+}
+
+func (q *Queue) InputChan() chan []byte {
+	return q.inputChannel
+}
+
+func (q *Queue) OutputChan() chan []byte {
+	return q.outputChannel
+}
+
+func (q *Queue) StartListen() {
+	for {
+		msg := <- q.inputChannel
+		q.outputChannel <- msg
+	}
 }
