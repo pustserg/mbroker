@@ -1,12 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"github.com/pustserg/mbroker/router"
 	"github.com/pustserg/mbroker/queues_pool"
-	"fmt"
+	"github.com/pustserg/mbroker/mbroker_log"
 )
 
 func main() {
+	logFile, err := mbroker_log.InitLog()
+	if err != nil { panic("cannot open logfile") }
+	defer logFile.Close()
+
 	pool := queuesPool.NewPool()
 	messages := []*router.Message{
 		router.NewMessage("odd queue",  []byte("first message")),
@@ -30,8 +35,9 @@ func main() {
 	for i := 0; i < len(messages); i++ {
 		go router.Route(messages[i], pool)
 	}
-	for {
-	}
+
+	var input string
+	fmt.Scanln(&input)
 }
 
 func receiver(channel chan []byte, name string) {
