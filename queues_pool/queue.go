@@ -1,5 +1,7 @@
 package queuesPool
 
+import "log"
+
 // Queue struct with name and string channels for input/output
 type Queue struct {
 	name                        string
@@ -17,6 +19,8 @@ func (q *Queue) OutputChan() chan []byte {
 func (q *Queue) StartListen() {
 	for {
 		msg := <- q.inputChannel
+		log.Println("message received")
 		q.outputChannel <- msg
+		log.Println("message sended")
 	}
 }
